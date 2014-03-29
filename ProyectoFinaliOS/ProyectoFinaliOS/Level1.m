@@ -9,6 +9,7 @@
 #import "Level1.h"
 #import "Constantes.h"
 #import "CChameleon.h"
+#import "CSeed.h"
 #import "Utils.h"
 #import "CSize.h"
 #import "FSKSpriteNode.h"
@@ -28,6 +29,7 @@
 
 - (Level1 *) initWithSize:(CGSize)size Controller:(UIViewController *)controller
 {
+    //initialize camera position
 	Camera *camera = [[Camera alloc] init];
 	camera.x = -10;
 	camera.y = -5;
@@ -39,6 +41,8 @@
 			Camera:camera Controller:controller];
 	self.backgroundColor = [UIColor whiteColor];
 	
+    
+    //Create background objects in perspective
 	CSize *presentP3NormalSize = [[CSize alloc] initWithWidth:20 Height:15];
 	FSKSpriteNode *presentP3 = [[FSKSpriteNode alloc] initWithName:@"Level1PresentP3" IsSceneNode:YES StateNames:@[@"Normal"] Frames:@[@1] Sizes:@[presentP3NormalSize]];
 	
@@ -48,9 +52,14 @@
 	CSize *presentP1NormalSize = [[CSize alloc] initWithWidth:12 Height:9];
 	FSKSpriteNode *presentP1 = [[FSKSpriteNode alloc] initWithName:@"Level1PresentP1" IsSceneNode:YES StateNames:@[@"Normal"] Frames:@[@1] Sizes:@[presentP1NormalSize]];
 	
-	
+    
+    //Create game character & help object
 	CChameleon *c = [[CChameleon alloc] init];
+    
+    CSeed *seed = [[CSeed alloc] init];
 	
+    
+    //Create interactive objects
 	CSize *chestSize = [[CSize alloc] initWithWidth:3 Height:2.32];
 	FSKSpriteNode *chest = [[FSKSpriteNode alloc] initWithName:@"Chest" IsSceneNode:NO StateNames:@[@"Closed"] Frames:@[@1] Sizes:@[chestSize]];
 	
@@ -60,6 +69,8 @@
     CSize *bottleSize =[[CSize alloc]initWithWidth:.9 Height:1.3];
     FSKSpriteNode *bottle = [[FSKSpriteNode alloc] initWithName:@"Bottle" IsSceneNode:NO StateNames:@[@"Normal"] Frames:@[@1] Sizes:@[bottleSize]];
 	
+    
+    //Add objects to scene
 	[self addChild:presentP3];
 	[self addChild:chest];
 	[self addChild:presentP2];
@@ -67,6 +78,7 @@
     [self addChild:pot];
     [self addChild:bottle];
 	[self addChild:c];
+    [self addChild:seed];
 	
 	
 	presentP3.state = @"Normal";
@@ -83,6 +95,9 @@
 	
 	[c setThreeDPositionX:2 Y:-4 Z:17.5];
 	c.state = @"Looking";
+    
+    [seed setThreeDPositionX:-2 Y:-4 Z:17.5];
+	seed.state = @"Hidden";
     
     
     //Animaciones escenario
@@ -110,6 +125,7 @@
 	});
 }
 
+//Function moving FSKSpriteNote in x, y and z with duration
 +(void) Move:(FSKSpriteNode*)element x:(double)x y:(double)y z:(double)z duration:(double)duration
 {
     int ciclos = duration * 10;
@@ -146,24 +162,30 @@
     return [SKAction repeatAction:[SKAction sequence:@[[SKAction rotateByAngle:degrees duration:duration], [SKAction rotateByAngle:-1*degrees duration:duration]]] count:counts];
 }
 
+//
 + (Matrix *)createMatrix
 {
+    //Chest touched
 	TouchDescription *t = [[TouchDescription alloc] initWithTargetName:@"Chest" Target:nil];
 	
 	Transition *showRushHour = [[Transition alloc]
 							 
 							 initWithUserActionDescription:t
 							 
+                            //Conditions to execute actions
 							 Condition:^BOOL(Level *level, UserAction *userAction)
 							 {
+                                 //Checks if the chest is closed
 								 Touch *touch = (Touch *)userAction;
-								 CChameleon * c = (CChameleon *)[level childNodeWithName:@"Chameleon"];
+	 							 //CChameleon * c = (CChameleon *)[level childNodeWithName:@"Chameleon"];
 								 return [((FSKSpriteNode *)touch.touchedNode).state isEqualToString:@"Closed"];
 								 
 							 }
+                                
+                            //Actions to be executed
 							 Actions:^(Level *level, UserAction *userAction)
 							 {
-								 
+								 //Present RushHour scene
 								 CLevel *cLevel = (CLevel *)level;
 								 GameViewController *gvc = (GameViewController *)cLevel.controller;
 								 RushHour *rhScene = [[RushHour alloc] initWithSize:ipad_size Delegate:gvc];
@@ -171,48 +193,71 @@
 								 
 							 }];
     
-	TouchDescription *t2=[[TouchDescription alloc] initWithTargetName:@"Maceta" Target:nil];
-    Transition *MacetaAnim =[[Transition alloc] initWithUserActionDescription:t2 Condition:^BOOL(Level *level, UserAction *userAction) {
-        Touch *touch = (Touch *) userAction;
-        return [((FSKSpriteNode *)touch.touchedNode).state isEqualToString:@"Normal"];
-        
+    //Pot touched
+	t=[[TouchDescription alloc] initWithTargetName:@"Maceta" Target:nil];
+    
+    Transition *MacetaAnim =[[Transition alloc]
+                             
+                             initWithUserActionDescription:t
+                             
+                             Condition:^BOOL(Level *level, UserAction *userAction)
+                            {
+                                Touch *touch = (Touch *) userAction;
+                                return [((FSKSpriteNode *)touch.touchedNode).state isEqualToString:@"Normal"];
+                            }
+                             
+                             //performs action / animation
+                            Actions:^(Level *level, UserAction *userAction)
+                            {
+                                Touch *touch =(Touch *) userAction;
 		
-    } Actions:^(Level *level, UserAction *userAction) {
-        Touch *touch =(Touch *) userAction;
+                                [touch.touchedNode runAction:[Level1 createShakeWithCounts:4 Degrees:.349 Duration:.05]];
 		
-		[touch.touchedNode runAction:[Level1 createShakeWithCounts:4 Degrees:.349 Duration:.05]];
-		
-    }];
+                            }];
     
     
     //falta mover el anchor point para arriba en el centro.. para que se mueva..
+    //animates bottle
     
-    TouchDescription *t3=[[TouchDescription alloc] initWithTargetName:@"Bottle" Target:nil];
-    Transition *BottleAnim =[[Transition alloc] initWithUserActionDescription:t3 Condition:^BOOL(Level *level, UserAction *userAction) {
-        Touch *touch = (Touch *) userAction;
-        return [((FSKSpriteNode *)touch.touchedNode).state isEqualToString:@"Normal"];
-        
-        
-    } Actions:^(Level *level, UserAction *userAction) {
-        Touch *touch =(Touch *) userAction;
+    t=[[TouchDescription alloc] initWithTargetName:@"Bottle" Target:nil];
+    
+    Transition *BottleAnim =[[Transition alloc]
+                             initWithUserActionDescription:t
+                             
+                             Condition:^BOOL(Level *level, UserAction *userAction)
+                            {
+                                Touch *touch = (Touch *) userAction;
+                                return [((FSKSpriteNode *)touch.touchedNode).state isEqualToString:@"Normal"];
+                            }
+                             
+                            Actions:^(Level *level, UserAction *userAction)
+                            {
+                                 Touch *touch =(Touch *) userAction;
 		
-		[touch.touchedNode runAction:[Level1 createShakeWithCounts:4 Degrees:.349 Duration:.05]];
-        
-    }];
+                                [touch.touchedNode runAction:[Level1 createShakeWithCounts:4 Degrees:.349 Duration:.05]];
+                            }];
 	
 	NonNodeTouchDescription *nt = [[NonNodeTouchDescription alloc] initWithAllowed:YES];
 	
-	Transition *moveToNonNodeTouch = [[Transition alloc] initWithUserActionDescription:nt Condition:^BOOL(Level *level, UserAction *userAction) {
-		return YES;
-	} Actions:^(Level *level, UserAction *userAction) {
-		NonNodeTouch *touch = (NonNodeTouch *) userAction;
-        CChameleon * c = (CChameleon *)[level childNodeWithName:@"Chameleon"];
-        c.state = @"Walking";
-		[c setDirection:touch.x - c.x];
-		float distance = abs(c.x - touch.x);
-        [Level1 Move:c x:touch.x y:c.y z:c.z duration:distance*5.0/touch.touchedNode.width];
+	
+    //Walking if no node is touched
+    Transition *moveToNonNodeTouch = [[Transition alloc]
+                                      
+                                    initWithUserActionDescription:nt Condition:^BOOL(Level *level, UserAction *userAction)
+                                    {
+                                        return YES;
+                                    }
+                                      
+                                    Actions:^(Level *level, UserAction *userAction)
+                                    {
+                                        NonNodeTouch *touch = (NonNodeTouch *) userAction;
+                                        CChameleon * c = (CChameleon *)[level childNodeWithName:@"Chameleon"];
+                                        c.state = @"Walking";
+                                        [c setDirection:touch.x - c.x];
+                                        float distance = abs(c.x - touch.x);
+                                        [Level1 Move:c x:touch.x y:c.y z:c.z duration:distance*5.0/touch.touchedNode.width];
 
-	}];
+                                    }];
 	
 	return [[Matrix alloc] initWithTransitions:@[showRushHour, MacetaAnim, BottleAnim, moveToNonNodeTouch]];
 }

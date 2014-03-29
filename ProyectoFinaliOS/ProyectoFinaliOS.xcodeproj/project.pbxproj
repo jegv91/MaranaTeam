@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5DE21C4318E775D0002A8294 /* CSeed.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DE21C4218E775D0002A8294 /* CSeed.m */; };
+		5DE21C4818E78549002A8294 /* SeedNormal.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 5DE21C4618E78549002A8294 /* SeedNormal.atlas */; };
+		5DE21C4A18E7858E002A8294 /* SeedHidden.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 5DE21C4918E7858E002A8294 /* SeedHidden.atlas */; };
 		7906CAE31844746D0004468F /* pantallaPrincipal.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7906CAE11844746D0004468F /* pantallaPrincipal.jpg */; };
 		7906CAE41844746D0004468F /* startBoton.png in Resources */ = {isa = PBXBuildFile; fileRef = 7906CAE21844746D0004468F /* startBoton.png */; };
 		7906CAE81844751B0004468F /* BottleNormal.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 7906CAE51844751B0004468F /* BottleNormal.atlas */; };
@@ -96,6 +99,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5DE21C4118E775D0002A8294 /* CSeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSeed.h; path = CFramework/CSeed.h; sourceTree = "<group>"; };
+		5DE21C4218E775D0002A8294 /* CSeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CSeed.m; path = CFramework/CSeed.m; sourceTree = "<group>"; };
+		5DE21C4618E78549002A8294 /* SeedNormal.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = SeedNormal.atlas; sourceTree = "<group>"; };
+		5DE21C4918E7858E002A8294 /* SeedHidden.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = SeedHidden.atlas; sourceTree = "<group>"; };
 		7906CAE11844746D0004468F /* pantallaPrincipal.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = pantallaPrincipal.jpg; sourceTree = "<group>"; };
 		7906CAE21844746D0004468F /* startBoton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = startBoton.png; sourceTree = "<group>"; };
 		7906CAE51844751B0004468F /* BottleNormal.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = BottleNormal.atlas; sourceTree = "<group>"; };
@@ -311,6 +318,8 @@
 		792979DF183F031000E3543A /* atlases */ = {
 			isa = PBXGroup;
 			children = (
+				5DE21C4918E7858E002A8294 /* SeedHidden.atlas */,
+				5DE21C4618E78549002A8294 /* SeedNormal.atlas */,
 				7906CAE51844751B0004468F /* BottleNormal.atlas */,
 				7906CAE61844751B0004468F /* MacetaNormal.atlas */,
 				7906CAE71844751B0004468F /* TransparentNormal.atlas */,
@@ -543,6 +552,8 @@
 				792979CC183EFCFA00E3543A /* CChameleon.m */,
 				79C18460183ECA33004A80A6 /* CLevel.h */,
 				79C18461183ECA33004A80A6 /* CLevel.m */,
+				5DE21C4118E775D0002A8294 /* CSeed.h */,
+				5DE21C4218E775D0002A8294 /* CSeed.m */,
 			);
 			name = CFramework;
 			sourceTree = "<group>";
@@ -665,11 +676,13 @@
 				7964E4531843493000D676E0 /* Level1PresentP3Normal.atlas in Resources */,
 				79C18416183EC93D004A80A6 /* InfoPlist.strings in Resources */,
 				7906CAE81844751B0004468F /* BottleNormal.atlas in Resources */,
+				5DE21C4A18E7858E002A8294 /* SeedHidden.atlas in Resources */,
 				7955F9C8183F22480029EAB0 /* ChameleonLooking.atlas in Resources */,
 				792A9C2E18443D520035511C /* InfoPlist.strings in Resources */,
 				79C1841F183EC93D004A80A6 /* Main.storyboard in Resources */,
 				792A9DA718443D6D0035511C /* AppledocSettings.plist in Resources */,
 				7964E4511843493000D676E0 /* Level1PresentP1Normal.atlas in Resources */,
+				5DE21C4818E78549002A8294 /* SeedNormal.atlas in Resources */,
 				7906CAE91844751B0004468F /* MacetaNormal.atlas in Resources */,
 				792979B6183EE16000E3543A /* inventory_background.jpg in Resources */,
 				790774AF18434701006634F9 /* Chest.png in Resources */,
@@ -726,6 +739,7 @@
 				79C1845D183EC9D8004A80A6 /* UserActionDescription.m in Sources */,
 				79C1845A183EC9D8004A80A6 /* Touch.m in Sources */,
 				7955F9D9183F2FDB0029EAB0 /* Camera.m in Sources */,
+				5DE21C4318E775D0002A8294 /* CSeed.m in Sources */,
 				79C1841C183EC93D004A80A6 /* AppDelegate.m in Sources */,
 				792A9DA118443D6D0035511C /* SBJson4StreamParser.m in Sources */,
 				79DFC81518BFF6130014BAB5 /* Board.m in Sources */,
