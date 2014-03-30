@@ -14,6 +14,7 @@
 
 @property (strong, nonatomic) CInventoryController *inventoryController;
 @property (strong, nonatomic) UIViewController *controller;
+extern NSInteger* const CLUE_LEVEL1;
 
 -(id)initWithSize:(CGSize) size
 		   Matrix:(Matrix *)matrix

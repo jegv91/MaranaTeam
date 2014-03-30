@@ -42,6 +42,7 @@
     NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:soundFilePath ];
     self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
     self.player.numberOfLoops = -1; //infinite loop
+    self.player.volume = 1.0;
     [self.player play];
 	
 }

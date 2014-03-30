@@ -11,8 +11,6 @@
 
 #define HIDDEN_SIZE [[CSize alloc] initWithWidth:0 Height:0]
 #define NORMAL_SIZE [[CSize alloc] initWithWidth:2.24 Height:4]
-#define MESSAGE_LEVEL1 @"Ayuda."
-
 
 @implementation CSeed
 
@@ -28,21 +26,8 @@
     self.anchorPoint = CGPointMake(.5, 0);
 	self.shouldInvert = YES;
 	self.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:self.size];
-    
-    //initialize message Array with messages
-    self.messages = [NSArray arrayWithObjects:MESSAGE_LEVEL1, nil];
+
 	return self;
-}
-
-
-//Shows the String in messages at index nmbrMsg
-- (NSString *) showMessage:(NSInteger)nmbrMsg
-{
-    //only if index is valid
-    if(nmbrMsg <= [self.messages count])
-    return [self.messages objectAtIndex:nmbrMsg];
-    
-    else return @"";
 }
 
 @end

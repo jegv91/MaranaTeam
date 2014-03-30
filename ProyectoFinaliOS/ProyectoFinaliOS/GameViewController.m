@@ -10,6 +10,8 @@
 #import <SpriteKit/SpriteKit.h>
 #import "Level1.h"
 #import "Constantes.h"
+#import "CSeed.h"
+#import "CClueMessage.h"
 #import <AVFoundation/AVFoundation.h>
 
 @interface GameViewController ()
@@ -54,8 +56,16 @@
 
 - (void)dismissWithDone:(BOOL)done
 {
-	[self.skview presentScene:self.l1 transition:self.reveal];
-	[self.l1.inventoryController addItem:[Level1 createKeyItem]];
+    [self.skview presentScene:self.l1 transition:self.reveal];
+    
+    if(done)
+    {
+        CSeed *seed = (CSeed *)[self.l1 childNodeWithName:@"Seed"];
+        seed.state = @"Normal";
+        CClueMessage *clue = (CClueMessage *)[self.l1 childNodeWithName:@"ClueLevel1"];
+        [clue show];
+    }
+
 }
 
 - (void)didReceiveMemoryWarning

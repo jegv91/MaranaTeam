@@ -9,6 +9,7 @@
 #import "Level1.h"
 #import "Constantes.h"
 #import "CChameleon.h"
+#import "CClueMessage.h"
 #import "CSeed.h"
 #import "Utils.h"
 #import "CSize.h"
@@ -53,10 +54,12 @@
 	FSKSpriteNode *presentP1 = [[FSKSpriteNode alloc] initWithName:@"Level1PresentP1" IsSceneNode:YES StateNames:@[@"Normal"] Frames:@[@1] Sizes:@[presentP1NormalSize]];
 	
     
-    //Create game character & help object
+    //Create game character & help objects
 	CChameleon *c = [[CChameleon alloc] init];
     
     CSeed *seed = [[CSeed alloc] init];
+    
+    CClueMessage *clue = [[CClueMessage alloc] initWithMsgNumber: CLUE_LEVEL1];
 	
     
     //Create interactive objects
@@ -79,7 +82,7 @@
     [self addChild:bottle];
 	[self addChild:c];
     [self addChild:seed];
-	
+	[self addChild:clue];
 	
 	presentP3.state = @"Normal";
 	[presentP3 setThreeDPositionX:0 Y:0 Z:20];
@@ -98,6 +101,9 @@
     
     [seed setThreeDPositionX:-2 Y:-4 Z:17.5];
 	seed.state = @"Hidden";
+    
+    [clue setThreeDPositionX:-2 Y:-2 Z:17.5];
+    clue.state = @"Hidden";
     
     
     //Animaciones escenario
@@ -236,11 +242,30 @@
 		
                                 [touch.touchedNode runAction:[Level1 createShakeWithCounts:4 Degrees:.349 Duration:.05]];
                             }];
-	
-	NonNodeTouchDescription *nt = [[NonNodeTouchDescription alloc] initWithAllowed:YES];
+	   
+    //Show the clue
+    
+    t=[[TouchDescription alloc] initWithTargetName:@"Seed" Target:nil];
+    
+    Transition *ClueShown = [[Transition alloc]
+                             initWithUserActionDescription:t
+                             
+                             Condition:^BOOL(Level *level, UserAction *userAction)
+                             {
+                                 CClueMessage *clueMsg = (CClueMessage *)[level childNodeWithName:@"ClueLevel1"];
+                                 return [clueMsg.state isEqualToString:@"Hidden"];
+                             }
+                             
+                             Actions:^(Level *level, UserAction *userAction)
+                             {
+                                 CClueMessage *clueMsg = (CClueMessage *)[level childNodeWithName:@"ClueLevel1"];
+                                 [clueMsg show];
+                             }];
 	
 	
     //Walking if no node is touched
+    NonNodeTouchDescription *nt = [[NonNodeTouchDescription alloc] initWithAllowed:YES];
+    
     Transition *moveToNonNodeTouch = [[Transition alloc]
                                       
                                     initWithUserActionDescription:nt Condition:^BOOL(Level *level, UserAction *userAction)
@@ -259,7 +284,7 @@
 
                                     }];
 	
-	return [[Matrix alloc] initWithTransitions:@[showRushHour, MacetaAnim, BottleAnim, moveToNonNodeTouch]];
+	return [[Matrix alloc] initWithTransitions:@[showRushHour, MacetaAnim, BottleAnim, ClueShown, moveToNonNodeTouch]];
 }
 
 @end

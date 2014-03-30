@@ -1,16 +1,19 @@
 //
-//  CSeed.h
+//  CClueMessage.h
 //  ProyectoFinaliOS
 //
 //  Created by Joel on 3/29/14.
 //  Copyright (c) 2014 Lay Gonzalez Romero. All rights reserved.
 //
 
-#import <SpriteKit/SpriteKit.h>
 #import "FSKSpriteNode.h"
 
-@interface CSeed : FSKSpriteNode
+#define CLUE_LEVEL1 0
 
-- (CSeed *)init;
+@interface CClueMessage : FSKSpriteNode
+
+- (CClueMessage *)initWithMsgNumber: (NSInteger) msgNumber;
+
+- (void) show;
 
 @end
